@@ -3,12 +3,14 @@ package netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Book;
+import ru.netology.domain.NotFoundException;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.manager.ProductManager;
 import ru.netology.repository.ProductRepository;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ProductManagerTest {
 
@@ -18,11 +20,11 @@ class ProductManagerTest {
     private Product book1 = new Book(1, "Last Symbol", 1034, "Dan Brown");
     private Product book2 = new Book(2, "Shantaram", 2745, "Gregory David Roberts");
     private Product book3 = new Book(3, "Dune", 1562, "Frank Gerbert");
-    private Product phone1 = new Smartphone(1, "Iphone XR", 15500, "Apple");
-    private Product phone2 = new Smartphone(2, "Nokia 3310", 7930, "Nokia");
-    private Product phone3 = new Smartphone(3, "Samsung Galaxy S2", 11390, "Samsung");
-    private Product phone4 = new Smartphone(4, "Samsung A2", 10144, "Samsung");
-    private Product anyProduct = new Product(1, "product", 1000);
+    private Product phone1 = new Smartphone(4, "Iphone XR", 15500, "Apple");
+    private Product phone2 = new Smartphone(5, "Nokia 3310", 7930, "Nokia");
+    private Product phone3 = new Smartphone(6, "Samsung Galaxy S2", 11390, "Samsung");
+    private Product phone4 = new Smartphone(7, "Samsung A2", 10144, "Samsung");
+    private Product anyProduct = new Product(8, "product", 1000);
 
     @BeforeEach
     void setUp() {
@@ -95,9 +97,14 @@ class ProductManagerTest {
     @Test
     public void shouldRemoveByID() {
         manager.removeById(4);
-        Product[] expected = new Product[]{book1, book2, book3, phone1, phone2, phone3, anyProduct};
+        Product[] expected = new Product[]{book1, book2, book3, phone2, phone3, phone4, anyProduct};
         Product[] actual = manager.findAll();
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldDeleteNotExistingItem() {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> repository.removeById(9));
     }
 
 }

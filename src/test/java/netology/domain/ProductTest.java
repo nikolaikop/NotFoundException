@@ -32,4 +32,5 @@ class ProductTest {
         boolean actual = phone4.matches("Samsung A2");
         assertTrue(actual);
     }
+
 }
